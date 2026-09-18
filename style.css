@@ -95,7 +95,8 @@ label {
 
 input[type="text"],
 input[type="email"],
-input[type="tel"] {
+input[type="tel"],
+select {
     padding: 10px 12px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -103,12 +104,23 @@ input[type="tel"] {
     background-color: var(--input-bg);
     color: var(--text-color);
     transition: border-color 0.3s ease;
+    width: 100%;
 }
 
-input:focus {
+input:focus,
+select:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(15, 42, 74, 0.1);
+}
+
+select option {
+    background-color: var(--form-bg);
+    color: var(--text-color);
+}
+
+.hidden {
+    display: none !important;
 }
 
 .submit-btn {

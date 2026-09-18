@@ -21,8 +21,12 @@
                     <input type="text" id="teamName" name="teamName" required>
                 </div>
                 <div class="form-group">
-                    <label for="domain">Domain *</label>
-                    <input type="text" id="domain" name="domain" required>
+                    <label for="teamSize">Number of Team Members *</label>
+                    <select id="teamSize" name="teamSize" required>
+                        <option value="2">2 Members (Leader + Member 2)</option>
+                        <option value="3">3 Members (Leader + Members 2 & 3)</option>
+                        <option value="4" selected>4 Members (Leader + Members 2, 3 & 4)</option>
+                    </select>
                 </div>
             </fieldset>
 
@@ -52,77 +56,96 @@
             </fieldset>
 
             <!-- Member 2 -->
-            <fieldset>
+            <fieldset id="member2Section">
                 <legend>Team Member 2</legend>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="member2Name">Full Name</label>
-                        <input type="text" id="member2Name" name="member2Name">
+                        <label for="member2Name">Full Name *</label>
+                        <input type="text" id="member2Name" name="member2Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="member2Email">Email Address</label>
-                        <input type="email" id="member2Email" name="member2Email">
+                        <label for="member2Email">Email Address *</label>
+                        <input type="email" id="member2Email" name="member2Email" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="member2Phone">Phone Number</label>
-                        <input type="tel" id="member2Phone" name="member2Phone">
+                        <label for="member2Phone">Phone Number *</label>
+                        <input type="tel" id="member2Phone" name="member2Phone" required>
                     </div>
                     <div class="form-group">
-                        <label for="member2College">College / Institution</label>
-                        <input type="text" id="member2College" name="member2College">
+                        <label for="member2College">College / Institution *</label>
+                        <input type="text" id="member2College" name="member2College" required>
                     </div>
                 </div>
             </fieldset>
 
             <!-- Member 3 -->
-            <fieldset>
+            <fieldset id="member3Section">
                 <legend>Team Member 3</legend>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="member3Name">Full Name</label>
-                        <input type="text" id="member3Name" name="member3Name">
+                        <label for="member3Name">Full Name *</label>
+                        <input type="text" id="member3Name" name="member3Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="member3Email">Email Address</label>
-                        <input type="email" id="member3Email" name="member3Email">
+                        <label for="member3Email">Email Address *</label>
+                        <input type="email" id="member3Email" name="member3Email" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="member3Phone">Phone Number</label>
-                        <input type="tel" id="member3Phone" name="member3Phone">
+                        <label for="member3Phone">Phone Number *</label>
+                        <input type="tel" id="member3Phone" name="member3Phone" required>
                     </div>
                     <div class="form-group">
-                        <label for="member3College">College / Institution</label>
-                        <input type="text" id="member3College" name="member3College">
+                        <label for="member3College">College / Institution *</label>
+                        <input type="text" id="member3College" name="member3College" required>
                     </div>
                 </div>
             </fieldset>
 
             <!-- Member 4 -->
-            <fieldset>
+            <fieldset id="member4Section">
                 <legend>Team Member 4</legend>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="member4Name">Full Name</label>
-                        <input type="text" id="member4Name" name="member4Name">
+                        <label for="member4Name">Full Name *</label>
+                        <input type="text" id="member4Name" name="member4Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="member4Email">Email Address</label>
-                        <input type="email" id="member4Email" name="member4Email">
+                        <label for="member4Email">Email Address *</label>
+                        <input type="email" id="member4Email" name="member4Email" required>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="member4Phone">Phone Number</label>
-                        <input type="tel" id="member4Phone" name="member4Phone">
+                        <label for="member4Phone">Phone Number *</label>
+                        <input type="tel" id="member4Phone" name="member4Phone" required>
                     </div>
                     <div class="form-group">
-                        <label for="member4College">College / Institution</label>
-                        <input type="text" id="member4College" name="member4College">
+                        <label for="member4College">College / Institution *</label>
+                        <input type="text" id="member4College" name="member4College" required>
                     </div>
+                </div>
+            </fieldset>
+
+            <!-- Academic & Project Details -->
+            <fieldset>
+                <legend>Academic & Project Details</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="semester">Semester *</label>
+                        <input type="text" id="semester" name="semester" placeholder="e.g. 4th Semester" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <input type="text" id="state" name="state" placeholder="e.g. Karnataka" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="domain">Domain *</label>
+                    <input type="text" id="domain" name="domain" placeholder="e.g. Web Development, AI/ML, IoT" required>
                 </div>
             </fieldset>
 
