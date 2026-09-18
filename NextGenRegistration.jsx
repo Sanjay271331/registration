@@ -26,6 +26,7 @@ const SEMESTERS = [
 ];
 
 const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/IsneEJHtBOv5zPgkYyXpha?s=sw&p=a&mlu=4&ilr=4';
+const HOME_URL = 'https://nextgenbuildathon.vercel.app/';
 
 // Official Terms & Conditions Sections
 export const TERMS_CONDITIONS_SECTIONS = [
@@ -243,6 +244,16 @@ export const downloadDocumentPDF = async (docTitle, sections, filename) => {
 };
 
 export default function NextGenRegistration() {
+  const [savedRegistration, setSavedRegistration] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const saved = sessionStorage.getItem('ngb_registration_completed');
+        return saved ? JSON.parse(saved) : null;
+      }
+    } catch (e) {}
+    return null;
+  });
+
   const [teamOverview, setTeamOverview] = useState({
     teamName: '',
     teamSize: 3, // 2, 3, or 4
@@ -273,7 +284,11 @@ export default function NextGenRegistration() {
   const [stateSearch, setStateSearch] = useState('');
   const [isStateOpen, setIsStateOpen] = useState(false);
   const [modalDoc, setModalDoc] = useState(null); // 'terms' | 'privacy' | null
-  const [status, setStatus] = useState({ submitting: false, success: false, error: '' });
+  const [status, setStatus] = useState({ 
+    submitting: false, 
+    success: Boolean(savedRegistration), 
+    error: '' 
+  });
 
   const filteredStates = useMemo(() => {
     return STATES.filter(s => s.toLowerCase().includes(stateSearch.toLowerCase()));
@@ -293,8 +308,18 @@ export default function NextGenRegistration() {
     setStatus({ submitting: true, success: false, error: '' });
 
     try {
-      // Simulate submission or post to Apps Script
-      await new Promise(resolve => setTimeout(resolve, 1200));
+      // Persist completed registration
+      const completionInfo = {
+        teamName: teamOverview.teamName,
+        teamSize: teamOverview.teamSize,
+        leaderEmail: leader.email,
+      };
+      try {
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('ngb_registration_completed', JSON.stringify(completionInfo));
+        }
+      } catch (e) {}
+      setSavedRegistration(completionInfo);
 
       // Trigger auto-download of documentation
       setTimeout(() => {
@@ -305,6 +330,16 @@ export default function NextGenRegistration() {
       }, 1200);
 
       setStatus({ submitting: false, success: true, error: '' });
+
+      // Automatically redirect to WhatsApp group
+      setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          const win = window.open(WHATSAPP_GROUP_URL, '_blank');
+          if (!win || win.closed || typeof win.closed === 'undefined') {
+            window.location.href = WHATSAPP_GROUP_URL;
+          }
+        }
+      }, 2000);
     } catch (err) {
       console.error(err);
       setStatus({ submitting: false, success: false, error: 'Registration failed. Please try again.' });
@@ -419,22 +454,18 @@ export default function NextGenRegistration() {
               </div>
             </div>
 
-            <button
-              onClick={() => {
-                setStatus({ submitting: false, success: false, error: '' });
-                setTeamOverview({ teamName: '', teamSize: 3, domain: '', state: '' });
-                setLeader({ fullName: '', email: '', college: '', phone: '', semester: '' });
-                setMembers([
-                  { id: 2, fullName: '', college: '', email: '', phone: '', semester: '' },
-                  { id: 3, fullName: '', college: '', email: '', phone: '', semester: '' },
-                  { id: 4, fullName: '', college: '', email: '', phone: '', semester: '' },
-                ]);
-                setAgreements({ terms: false, privacy: false, declaration: false });
-              }}
-              className="px-8 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs transition border border-slate-700"
-            >
-              Register Another Team
-            </button>
+            {/* RETURN TO HOME BUTTON */}
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href={HOME_URL}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-slate-950 font-bold text-sm sm:text-base transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <span>Return Back to Home</span>
+              </a>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-8">

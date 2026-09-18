@@ -99,6 +99,7 @@
 
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzuUiPD-JRnaLKaZ2z71e4wXM6c24pDRnP-Q-5XgnGCKP4b2MypQXAIuYW11EUljw_y1A/exec';
         const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/IsneEJHtBOv5zPgkYyXpha?s=sw&p=a&mlu=4&ilr=4';
+        const HOME_URL = 'https://nextgenbuildathon.vercel.app/';
 
         // Official Terms & Conditions Sections
         const TERMS_CONDITIONS_SECTIONS = [
@@ -314,6 +315,16 @@
         }
 
         function App() {
+            // Check if registration was already completed in this session
+            const [savedRegistration, setSavedRegistration] = useState(() => {
+                try {
+                    const saved = sessionStorage.getItem('ngb_registration_completed');
+                    return saved ? JSON.parse(saved) : null;
+                } catch (e) {
+                    return null;
+                }
+            });
+
             // Section 1: Team & Project Overview
             const [teamOverview, setTeamOverview] = useState({
                 teamName: '',
@@ -350,7 +361,11 @@
             const [isStateOpen, setIsStateOpen] = useState(false);
 
             // Submission state
-            const [status, setStatus] = useState({ submitting: false, success: false, error: '' });
+            const [status, setStatus] = useState({ 
+                submitting: false, 
+                success: Boolean(savedRegistration), 
+                error: '' 
+            });
 
             // Modal viewer state for T&C / Privacy
             const [modalDoc, setModalDoc] = useState(null); // 'terms' | 'privacy' | null
@@ -383,9 +398,11 @@
                     formData.append('state', teamOverview.state);
                     formData.append('leaderName', leader.fullName);
                     formData.append('leaderEmail', leader.email);
+                    formData.append('email', leader.email);
                     formData.append('leaderCollege', leader.college);
                     formData.append('leaderPhone', leader.phone);
                     formData.append('leaderSemester', leader.semester);
+                    formData.append('semester', leader.semester);
                     
                     activeMembers.forEach(m => {
                         formData.append(`member${m.id}Name`, m.fullName);
@@ -402,6 +419,19 @@
                         mode: 'no-cors'
                     });
 
+                    // Save completed registration info in session storage so finished tab stays finished
+                    const completionInfo = {
+                        teamName: teamOverview.teamName,
+                        teamSize: teamOverview.teamSize,
+                        leaderEmail: leader.email,
+                    };
+                    try {
+                        sessionStorage.setItem('ngb_registration_completed', JSON.stringify(completionInfo));
+                    } catch (err) {
+                        console.warn('sessionStorage error', err);
+                    }
+                    setSavedRegistration(completionInfo);
+
                     // Auto-download Terms and Privacy PDFs for the participant
                     setTimeout(() => {
                         downloadDocumentPDF('Terms & Conditions', TERMS_CONDITIONS_SECTIONS, 'NextGen_Buildathon_Terms_and_Conditions.pdf');
@@ -411,6 +441,14 @@
                     }, 1200);
 
                     setStatus({ submitting: false, success: true, error: '' });
+
+                    // Redirect to official WhatsApp Group
+                    setTimeout(() => {
+                        const win = window.open(WHATSAPP_GROUP_URL, '_blank');
+                        if (!win || win.closed || typeof win.closed === 'undefined') {
+                            window.location.href = WHATSAPP_GROUP_URL;
+                        }
+                    }, 2000);
                 } catch (err) {
                     console.error('Submission failed:', err);
                     setStatus({
@@ -456,15 +494,19 @@
                                         Registration Successful!
                                     </h2>
                                     <div className="inline-block px-4 py-2 rounded-full bg-orange-500/15 border border-orange-500/30 text-orange-400 text-sm font-semibold mb-4">
-                                        Team: {teamOverview.teamName} &bull; {teamOverview.teamSize} Members
+                                        Team: {(savedRegistration && savedRegistration.teamName) || teamOverview.teamName} &bull; {(savedRegistration && savedRegistration.teamSize) || teamOverview.teamSize} Members
                                     </div>
                                     <p className="text-slate-300 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
                                         You will be getting a formal confirmation mail through the team leader&apos;s registered email:
                                         <br />
                                         <span className="text-white font-semibold underline underline-offset-4 decoration-orange-500 mt-1 inline-block">
-                                            {leader.email}
+                                            {(savedRegistration && savedRegistration.leaderEmail) || leader.email}
                                         </span>
                                     </p>
+                                    <div className="flex items-center justify-center gap-2 text-xs text-emerald-400 font-medium py-1.5 px-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 max-w-fit mx-auto mt-4">
+                                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                        <span>Redirecting to WhatsApp Community...</span>
+                                    </div>
                                 </div>
 
                                 {/* WHATSAPP GROUP INVITE BLOCK */}
@@ -545,22 +587,18 @@
                                     </div>
                                 </div>
 
-                                <button
-                                    onClick={() => {
-                                        setStatus({ submitting: false, success: false, error: '' });
-                                        setTeamOverview({ teamName: '', teamSize: 3, domain: '', state: '' });
-                                        setLeader({ fullName: '', email: '', college: '', phone: '', semester: '' });
-                                        setMembers([
-                                            { id: 2, fullName: '', college: '', email: '', phone: '', semester: '' },
-                                            { id: 3, fullName: '', college: '', email: '', phone: '', semester: '' },
-                                            { id: 4, fullName: '', college: '', email: '', phone: '', semester: '' },
-                                        ]);
-                                        setAgreements({ terms: false, privacy: false, declaration: false });
-                                    }}
-                                    className="px-8 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs transition border border-slate-700 cursor-pointer"
-                                >
-                                    Register Another Team
-                                </button>
+                                {/* RETURN TO HOME BUTTON */}
+                                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                                    <a
+                                        href={HOME_URL}
+                                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-slate-950 font-bold text-sm sm:text-base transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                        </svg>
+                                        <span>Return Back to Home</span>
+                                    </a>
+                                </div>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-8">
