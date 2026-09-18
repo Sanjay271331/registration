@@ -509,50 +509,18 @@ export default function NextGenRegistration() {
                   </select>
                 </div>
 
-                <div className="relative">
+                <div>
                   <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
                     State / Region <span className="text-orange-500">*</span>
                   </label>
-                  <div
-                    onClick={() => setIsStateOpen(!isStateOpen)}
-                    className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 flex items-center justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500/50"
-                  >
-                    <span className={teamOverview.state ? 'text-slate-100' : 'text-slate-500'}>
-                      {teamOverview.state || 'Select state or region'}
-                    </span>
-                    <span className="text-slate-400 text-xs">▼</span>
-                  </div>
-
-                  {isStateOpen && (
-                    <div className="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-30 overflow-hidden">
-                      <div className="p-2 border-b border-slate-800">
-                        <input
-                          type="text"
-                          value={stateSearch}
-                          onChange={(e) => setStateSearch(e.target.value)}
-                          placeholder="Search state..."
-                          className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-orange-500"
-                          autoFocus
-                        />
-                      </div>
-                      <div className="max-h-48 overflow-y-auto">
-                        {filteredStates.map((st) => (
-                          <button
-                            key={st}
-                            type="button"
-                            onClick={() => {
-                              setTeamOverview({ ...teamOverview, state: st });
-                              setIsStateOpen(false);
-                              setStateSearch('');
-                            }}
-                            className="w-full text-left px-4 py-2 text-xs transition hover:bg-orange-500/10 hover:text-orange-400 text-slate-300"
-                          >
-                            {st}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  <input
+                    type="text"
+                    required
+                    value={teamOverview.state}
+                    onChange={(e) => setTeamOverview({ ...teamOverview, state: e.target.value })}
+                    placeholder="e.g. Karnataka"
+                    className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                  />
                 </div>
               </div>
             </section>
