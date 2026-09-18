@@ -319,10 +319,18 @@
             const [savedRegistration, setSavedRegistration] = useState(() => {
                 try {
                     const saved = sessionStorage.getItem('ngb_registration_completed');
-                    return saved ? JSON.parse(saved) : null;
+                    if (saved) {
+                        const parsed = JSON.parse(saved);
+                        if (parsed && parsed.leaderEmail) {
+                            delete parsed.leaderEmail;
+                            sessionStorage.setItem('ngb_registration_completed', JSON.stringify(parsed));
+                        }
+                        return parsed;
+                    }
                 } catch (e) {
                     return null;
                 }
+                return null;
             });
 
             // Section 1: Team & Project Overview
@@ -423,7 +431,6 @@
                     const completionInfo = {
                         teamName: teamOverview.teamName,
                         teamSize: teamOverview.teamSize,
-                        leaderEmail: leader.email,
                     };
                     try {
                         sessionStorage.setItem('ngb_registration_completed', JSON.stringify(completionInfo));
@@ -497,11 +504,7 @@
                                         Team: {(savedRegistration && savedRegistration.teamName) || teamOverview.teamName} &bull; {(savedRegistration && savedRegistration.teamSize) || teamOverview.teamSize} Members
                                     </div>
                                     <p className="text-slate-300 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
-                                        You will be getting a formal confirmation mail through the team leader&apos;s registered email:
-                                        <br />
-                                        <span className="text-white font-semibold underline underline-offset-4 decoration-orange-500 mt-1 inline-block">
-                                            {(savedRegistration && savedRegistration.leaderEmail) || leader.email}
-                                        </span>
+                                        You will be getting a formal confirmation mail through the team leader&apos;s registered email address.
                                     </p>
                                     <div className="flex items-center justify-center gap-2 text-xs text-emerald-400 font-medium py-1.5 px-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 max-w-fit mx-auto mt-4">
                                         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>

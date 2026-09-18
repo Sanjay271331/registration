@@ -308,11 +308,10 @@ export default function NextGenRegistration() {
     setStatus({ submitting: true, success: false, error: '' });
 
     try {
-      // Persist completed registration
+      // Persist completed registration (without storing email address)
       const completionInfo = {
         teamName: teamOverview.teamName,
         teamSize: teamOverview.teamSize,
-        leaderEmail: leader.email,
       };
       try {
         if (typeof window !== 'undefined') {
@@ -379,11 +378,7 @@ export default function NextGenRegistration() {
                 Team: {teamOverview.teamName} &bull; {teamOverview.teamSize} Members
               </div>
               <p className="text-slate-300 max-w-lg mx-auto text-sm sm:text-base leading-relaxed">
-                You will be getting a formal confirmation mail through the team leader&apos;s registered email:
-                <br />
-                <span className="text-white font-semibold underline underline-offset-4 decoration-orange-500 mt-1 inline-block">
-                  {leader.email}
-                </span>
+                You will be getting a formal confirmation mail through the team leader&apos;s registered email address.
               </p>
             </div>
 
