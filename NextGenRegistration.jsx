@@ -2,15 +2,11 @@ import React, { useState, useMemo } from 'react';
 
 // Domain options for NextGen Buildathon
 const DOMAINS = [
-  'Artificial Intelligence & Machine Learning',
-  'Web3, Blockchain & Decentralized Apps',
-  'Cloud Architecture, DevOps & Serverless',
-  'IoT, Embedded Systems & Robotics',
-  'Cybersecurity, Privacy & Threat Defense',
-  'FinTech, Digital Payments & Banking',
-  'HealthTech & Bio-Informatics',
-  'Smart City, Cleantech & Sustainability',
-  'Open Innovation & Social Impact',
+  'Domain 1: NextGen — Building Tomorrow, Today',
+  'Domain 2: Artificial Intelligence and Intelligent Systems',
+  'Domain 3: IOT and Embedded System',
+  'Domain 4: FinTech',
+  'Domain 5: Sustainable innovation',
 ];
 
 // Indian States and Union Territories list
