@@ -73,7 +73,7 @@ function doPost(e) {
     }
 
     // Map each column header to its corresponding submitted value
-    const newRow = headers.map(function(header, index) {
+    const newRow = headers.map(function (header, index) {
       const norm = normalizeHeader(header);
 
       // Serial Number (matches SL NO, SNO, SERIAL NO, or if first column header is blank)
