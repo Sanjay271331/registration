@@ -76,9 +76,9 @@ function doPost(e) {
     const newRow = headers.map(function (header, index) {
       const norm = normalizeHeader(header);
 
-      // Serial Number (matches SL NO, SNO, SERIAL NO, or if first column header is blank)
+      // Dynamic Serial Number formula (automatically updates to 1, 2, 3... even when rows are deleted/moved)
       if (norm.includes('SLNO') || norm.includes('SNO') || norm.includes('SERIAL') || (index === 0 && norm === '')) {
-        return slNo;
+        return '=ROW()-1';
       }
 
       // Timestamp
@@ -204,3 +204,47 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 }
+
+// ==============================================================================
+// UTILITY: AUTO-CLEAN EMPTY ROWS & RENUMBER FROM 1
+// ==============================================================================
+// Adds a custom menu in Google Sheets so you can 1-click clean blank rows & renumber
+function onOpen() {
+  try {
+    SpreadsheetApp.getUi()
+      .createMenu('🚀 NextGen Tools')
+      .addItem('Clean Empty Rows & Renumber', 'cleanAndRenumberRows')
+      .addToUi();
+  } catch (e) {
+    // Suppress if running in headless context
+  }
+}
+
+function cleanAndRenumberRows() {
+  const doc = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = doc.getSheetByName(SHEET_NAME) || doc.getSheets()[0];
+  const lastRow = sheet.getLastRow();
+  const lastCol = sheet.getLastColumn();
+
+  if (lastRow < 2) return;
+
+  // 1. Delete completely empty rows from bottom to top so below rows shift up
+  for (let r = lastRow; r >= 2; r--) {
+    const rowValues = sheet.getRange(r, 1, 1, lastCol).getValues()[0];
+    // Check if Team Name (col 2) or Leader Name (col 3) is blank
+    const teamName = String(rowValues[1] || '').trim();
+    const leaderName = String(rowValues[2] || '').trim();
+    if (!teamName && !leaderName) {
+      sheet.deleteRow(r);
+    }
+  }
+
+  // 2. Re-apply =ROW()-1 formula to Column 1 (SL NO) for all valid rows
+  const newLastRow = sheet.getLastRow();
+  if (newLastRow >= 2) {
+    for (let r = 2; r <= newLastRow; r++) {
+      sheet.getRange(r, 1).setFormula('=ROW()-1');
+    }
+  }
+}
+
