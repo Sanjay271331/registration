@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form | NextGen Build-A-Thon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <img src="assets/logo.jpg" alt="NextGen Build-A-Thon Logo" class="logo">
+            <h1>Team Registration Form</h1>
+        </div>
+        <form id="registrationForm">
+            <!-- Team Info -->
+            <fieldset>
+                <legend>Team Details</legend>
+                <div class="form-group">
+                    <label for="teamName">Team Name *</label>
+                    <input type="text" id="teamName" name="teamName" required>
+                </div>
+                <div class="form-group">
+                    <label for="teamSize">Number of Team Members *</label>
+                    <select id="teamSize" name="teamSize" required>
+                        <option value="2">2 Members (Leader + Member 2)</option>
+                        <option value="3">3 Members (Leader + Members 2 & 3)</option>
+                        <option value="4" selected>4 Members (Leader + Members 2, 3 & 4)</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <!-- Leader Info -->
+            <fieldset>
+                <legend>Team Leader</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="leaderName">Full Name *</label>
+                        <input type="text" id="leaderName" name="leaderName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="leaderEmail">Email Address *</label>
+                        <input type="email" id="leaderEmail" name="leaderEmail" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="leaderPhone">Phone Number *</label>
+                        <input type="tel" id="leaderPhone" name="leaderPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="leaderCollege">College / Institution *</label>
+                        <input type="text" id="leaderCollege" name="leaderCollege" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Member 2 -->
+            <fieldset id="member2Section">
+                <legend>Team Member 2</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="member2Name">Full Name *</label>
+                        <input type="text" id="member2Name" name="member2Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member2Email">Email Address *</label>
+                        <input type="email" id="member2Email" name="member2Email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="member2Phone">Phone Number *</label>
+                        <input type="tel" id="member2Phone" name="member2Phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member2College">College / Institution *</label>
+                        <input type="text" id="member2College" name="member2College" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Member 3 -->
+            <fieldset id="member3Section">
+                <legend>Team Member 3</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="member3Name">Full Name *</label>
+                        <input type="text" id="member3Name" name="member3Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member3Email">Email Address *</label>
+                        <input type="email" id="member3Email" name="member3Email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="member3Phone">Phone Number *</label>
+                        <input type="tel" id="member3Phone" name="member3Phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member3College">College / Institution *</label>
+                        <input type="text" id="member3College" name="member3College" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Member 4 -->
+            <fieldset id="member4Section">
+                <legend>Team Member 4</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="member4Name">Full Name *</label>
+                        <input type="text" id="member4Name" name="member4Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member4Email">Email Address *</label>
+                        <input type="email" id="member4Email" name="member4Email" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="member4Phone">Phone Number *</label>
+                        <input type="tel" id="member4Phone" name="member4Phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="member4College">College / Institution *</label>
+                        <input type="text" id="member4College" name="member4College" required>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- Academic & Project Details -->
+            <fieldset>
+                <legend>Academic & Project Details</legend>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="semester">Semester *</label>
+                        <input type="text" id="semester" name="semester" placeholder="e.g. 4th Semester" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <input type="text" id="state" name="state" placeholder="e.g. Karnataka" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="domain">Domain *</label>
+                    <input type="text" id="domain" name="domain" placeholder="e.g. Web Development, AI/ML, IoT" required>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="submit-btn">Register Team</button>
+            <p id="formMessage" class="message"></p>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

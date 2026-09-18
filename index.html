@@ -3,156 +3,711 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Form | NextGen Build-A-Thon</title>
-    <link rel="stylesheet" href="style.css">
+    <title>NextGen Buildathon Registration | Presented by The Mind Mesh</title>
+    
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316', // Vibrant Orange Accent
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- React, ReactDOM & Babel -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+        /* Custom scrollbar for state dropdown */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f97316;
+        }
+    </style>
 </head>
-<body>
-    <div class="form-container">
-        <div class="form-header">
-            <img src="assets/logo.jpg" alt="NextGen Build-A-Thon Logo" class="logo">
-            <h1>Team Registration Form</h1>
-        </div>
-        <form id="registrationForm">
-            <!-- Team Info -->
-            <fieldset>
-                <legend>Team Details</legend>
-                <div class="form-group">
-                    <label for="teamName">Team Name *</label>
-                    <input type="text" id="teamName" name="teamName" required>
-                </div>
-                <div class="form-group">
-                    <label for="teamSize">Number of Team Members *</label>
-                    <select id="teamSize" name="teamSize" required>
-                        <option value="2">2 Members (Leader + Member 2)</option>
-                        <option value="3">3 Members (Leader + Members 2 & 3)</option>
-                        <option value="4" selected>4 Members (Leader + Members 2, 3 & 4)</option>
-                    </select>
-                </div>
-            </fieldset>
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-orange-500 selection:text-white">
 
-            <!-- Leader Info -->
-            <fieldset>
-                <legend>Team Leader</legend>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="leaderName">Full Name *</label>
-                        <input type="text" id="leaderName" name="leaderName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="leaderEmail">Email Address *</label>
-                        <input type="email" id="leaderEmail" name="leaderEmail" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="leaderPhone">Phone Number *</label>
-                        <input type="tel" id="leaderPhone" name="leaderPhone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="leaderCollege">College / Institution *</label>
-                        <input type="text" id="leaderCollege" name="leaderCollege" required>
-                    </div>
-                </div>
-            </fieldset>
+    <div id="root"></div>
 
-            <!-- Member 2 -->
-            <fieldset id="member2Section">
-                <legend>Team Member 2</legend>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="member2Name">Full Name *</label>
-                        <input type="text" id="member2Name" name="member2Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="member2Email">Email Address *</label>
-                        <input type="email" id="member2Email" name="member2Email" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="member2Phone">Phone Number *</label>
-                        <input type="tel" id="member2Phone" name="member2Phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="member2College">College / Institution *</label>
-                        <input type="text" id="member2College" name="member2College" required>
-                    </div>
-                </div>
-            </fieldset>
+    <script type="text/babel">
+        const { useState, useMemo, useEffect } = React;
 
-            <!-- Member 3 -->
-            <fieldset id="member3Section">
-                <legend>Team Member 3</legend>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="member3Name">Full Name *</label>
-                        <input type="text" id="member3Name" name="member3Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="member3Email">Email Address *</label>
-                        <input type="email" id="member3Email" name="member3Email" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="member3Phone">Phone Number *</label>
-                        <input type="tel" id="member3Phone" name="member3Phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="member3College">College / Institution *</label>
-                        <input type="text" id="member3College" name="member3College" required>
-                    </div>
-                </div>
-            </fieldset>
+        const DOMAINS = [
+            'Artificial Intelligence & Machine Learning',
+            'Web3, Blockchain & Decentralized Apps',
+            'Cloud Architecture, DevOps & Serverless',
+            'IoT, Embedded Systems & Robotics',
+            'Cybersecurity, Privacy & Threat Defense',
+            'FinTech, Digital Payments & Banking',
+            'HealthTech & Bio-Informatics',
+            'Smart City, Cleantech & Sustainability',
+            'Open Innovation & Social Impact',
+        ];
 
-            <!-- Member 4 -->
-            <fieldset id="member4Section">
-                <legend>Team Member 4</legend>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="member4Name">Full Name *</label>
-                        <input type="text" id="member4Name" name="member4Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="member4Email">Email Address *</label>
-                        <input type="email" id="member4Email" name="member4Email" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="member4Phone">Phone Number *</label>
-                        <input type="tel" id="member4Phone" name="member4Phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="member4College">College / Institution *</label>
-                        <input type="text" id="member4College" name="member4College" required>
-                    </div>
-                </div>
-            </fieldset>
+        const STATES = [
+            'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+            'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+            'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram',
+            'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
+            'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+            'Andaman and Nicobar Islands', 'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu',
+            'Delhi (NCT)', 'Jammu and Kashmir', 'Ladakh', 'Lakshadweep', 'Puducherry', 'Other'
+        ];
 
-            <!-- Academic & Project Details -->
-            <fieldset>
-                <legend>Academic & Project Details</legend>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="semester">Semester *</label>
-                        <input type="text" id="semester" name="semester" placeholder="e.g. 4th Semester" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="state">State *</label>
-                        <input type="text" id="state" name="state" placeholder="e.g. Karnataka" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="domain">Domain *</label>
-                    <input type="text" id="domain" name="domain" placeholder="e.g. Web Development, AI/ML, IoT" required>
-                </div>
-            </fieldset>
+        const SEMESTERS = [
+            '1st Semester', '2nd Semester', '3rd Semester', '4th Semester',
+            '5th Semester', '6th Semester', '7th Semester', '8th Semester'
+        ];
 
-            <button type="submit" class="submit-btn">Register Team</button>
-            <p id="formMessage" class="message"></p>
-        </form>
-    </div>
-    <script src="script.js"></script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzuUiPD-JRnaLKaZ2z71e4wXM6c24pDRnP-Q-5XgnGCKP4b2MypQXAIuYW11EUljw_y1A/exec';
+
+        function App() {
+            // Section 1: Team & Project Overview
+            const [teamOverview, setTeamOverview] = useState({
+                teamName: '',
+                teamSize: 3, // Options strictly limited to: 2, 3, or 4
+                domain: '',
+                state: '',
+            });
+
+            // Section 2: Team Leader Details
+            const [leader, setLeader] = useState({
+                fullName: '',
+                email: '',
+                college: '',
+                phone: '',
+                semester: '',
+            });
+
+            // Section 3: Dynamic Members (Members 2, 3, 4)
+            const [members, setMembers] = useState([
+                { id: 2, fullName: '', college: '', email: '', phone: '', semester: '' },
+                { id: 3, fullName: '', college: '', email: '', phone: '', semester: '' },
+                { id: 4, fullName: '', college: '', email: '', phone: '', semester: '' },
+            ]);
+
+            // Section 4: Agreements & Consent
+            const [agreements, setAgreements] = useState({
+                terms: false,
+                privacy: false,
+                declaration: false,
+            });
+
+            // Searchable State dropdown state
+            const [stateSearch, setStateSearch] = useState('');
+            const [isStateOpen, setIsStateOpen] = useState(false);
+
+            // Submission state
+            const [status, setStatus] = useState({ submitting: false, success: false, error: '' });
+
+            const filteredStates = useMemo(() => {
+                return STATES.filter(s => s.toLowerCase().includes(stateSearch.toLowerCase()));
+            }, [stateSearch]);
+
+            // Submit disabled until all 3 checkboxes are checked
+            const isSubmitDisabled = !agreements.terms || !agreements.privacy || !agreements.declaration || status.submitting;
+
+            // Active members to display
+            const activeMembers = members.slice(0, teamOverview.teamSize - 1);
+
+            const handleMemberChange = (id, field, value) => {
+                setMembers(prev =>
+                    prev.map(m => (m.id === id ? { ...m, [field]: value } : m))
+                );
+            };
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setStatus({ submitting: true, success: false, error: '' });
+
+                try {
+                    const formData = new FormData();
+                    formData.append('teamName', teamOverview.teamName);
+                    formData.append('teamSize', teamOverview.teamSize);
+                    formData.append('domain', teamOverview.domain);
+                    formData.append('state', teamOverview.state);
+                    formData.append('leaderName', leader.fullName);
+                    formData.append('leaderEmail', leader.email);
+                    formData.append('leaderCollege', leader.college);
+                    formData.append('leaderPhone', leader.phone);
+                    formData.append('leaderSemester', leader.semester);
+                    
+                    activeMembers.forEach(m => {
+                        formData.append(`member${m.id}Name`, m.fullName);
+                        formData.append(`member${m.id}Email`, m.email);
+                        formData.append(`member${m.id}College`, m.college);
+                        formData.append(`member${m.id}Phone`, m.phone);
+                        formData.append(`member${m.id}Semester`, m.semester);
+                    });
+
+                    // Post directly to Google Apps Script Web App
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: formData,
+                        mode: 'no-cors'
+                    });
+
+                    setStatus({ submitting: false, success: true, error: '' });
+                } catch (err) {
+                    console.error('Submission failed:', err);
+                    setStatus({
+                        submitting: false,
+                        success: false,
+                        error: 'Registration submission encountered an error. Please try again.',
+                    });
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+                    {/* Ambient Glows */}
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none -z-0"></div>
+                    <div className="absolute bottom-10 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-0"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-slate-900/40 rounded-full blur-[140px] pointer-events-none -z-0"></div>
+
+                    <div className="max-w-4xl mx-auto relative z-10">
+                        
+                        {/* Header Branding */}
+                        <header className="text-center mb-12">
+                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold tracking-wider uppercase mb-4 shadow-sm shadow-orange-500/10">
+                                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                                Presented by The Mind Mesh
+                            </div>
+                            
+                            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">
+                                NextGen <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-amber-500">Buildathon</span>
+                            </h1>
+                            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto font-medium">
+                                Forge breakthrough solutions. Complete the official registration below to secure your team&apos;s slot.
+                            </p>
+                        </header>
+
+                        {/* Success Screen */}
+                        {status.success ? (
+                            <div className="bg-slate-900/80 border border-emerald-500/40 rounded-2xl p-8 sm:p-12 text-center backdrop-blur-xl shadow-2xl shadow-emerald-500/10 animate-fade-in">
+                                <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-5 text-3xl font-bold">
+                                    ✓
+                                </div>
+                                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Team Registered Successfully!</h2>
+                                <p className="text-slate-300 max-w-md mx-auto mb-6 text-sm sm:text-base">
+                                    Congratulations <strong className="text-orange-400">{teamOverview.teamName}</strong>. Your registration details have been synchronized with the Buildathon portal.
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        setStatus({ submitting: false, success: false, error: '' });
+                                        setTeamOverview({ teamName: '', teamSize: 3, domain: '', state: '' });
+                                        setLeader({ fullName: '', email: '', college: '', phone: '', semester: '' });
+                                        setMembers([
+                                            { id: 2, fullName: '', college: '', email: '', phone: '', semester: '' },
+                                            { id: 3, fullName: '', college: '', email: '', phone: '', semester: '' },
+                                            { id: 4, fullName: '', college: '', email: '', phone: '', semester: '' },
+                                        ]);
+                                        setAgreements({ terms: false, privacy: false, declaration: false });
+                                    }}
+                                    className="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold text-sm hover:opacity-95 transition shadow-lg shadow-orange-500/20 cursor-pointer"
+                                >
+                                    Register Another Team
+                                </button>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-8">
+
+                                {/* SECTION 1: Team & Project Overview */}
+                                <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 sm:p-8 shadow-xl relative group hover:border-slate-700/80 transition-all duration-300">
+                                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800/80">
+                                        <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold text-sm">
+                                            1
+                                        </div>
+                                        <div>
+                                            <h2 className="text-lg sm:text-xl font-bold text-white">Team &amp; Project Overview</h2>
+                                            <p className="text-xs text-slate-400">Establish your team identity, squad size, and innovation track</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                        {/* Team Name */}
+                                        <div className="sm:col-span-1">
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                Team Name <span className="text-orange-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={teamOverview.teamName}
+                                                onChange={(e) => setTeamOverview({ ...teamOverview, teamName: e.target.value })}
+                                                placeholder="e.g. CyberVanguard"
+                                                className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                            />
+                                        </div>
+
+                                        {/* Team Size Radio Selector */}
+                                        <div className="sm:col-span-1">
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                Team Size <span className="text-orange-500">*</span>
+                                            </label>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                {[2, 3, 4].map((size) => (
+                                                    <button
+                                                        key={size}
+                                                        type="button"
+                                                        onClick={() => setTeamOverview({ ...teamOverview, teamSize: size })}
+                                                        className={`py-2.5 px-3 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-200 flex flex-col items-center justify-center gap-0.5 cursor-pointer ${
+                                                            teamOverview.teamSize === size
+                                                                ? 'bg-orange-500/15 border-orange-500 text-orange-400 shadow-md shadow-orange-500/20 ring-1 ring-orange-500/50'
+                                                                : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                                                        }`}
+                                                    >
+                                                        <span>{size} Members</span>
+                                                        <span className="text-[10px] font-normal opacity-70">
+                                                            {size === 2 ? 'Leader + 1' : size === 3 ? 'Leader + 2' : 'Leader + 3'}
+                                                        </span>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Domain Chosen */}
+                                        <div className="sm:col-span-1">
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                Domain Chosen <span className="text-orange-500">*</span>
+                                            </label>
+                                            <div className="relative">
+                                                <select
+                                                    required
+                                                    value={teamOverview.domain}
+                                                    onChange={(e) => setTeamOverview({ ...teamOverview, domain: e.target.value })}
+                                                    className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all cursor-pointer"
+                                                >
+                                                    <option value="" disabled>Select innovation domain</option>
+                                                    {DOMAINS.map((d) => (
+                                                        <option key={d} value={d} className="bg-slate-900 text-slate-200">
+                                                            {d}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 text-xs">
+                                                    ▼
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* State Dropdown (Searchable) */}
+                                        <div className="sm:col-span-1 relative">
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                State / Region <span className="text-orange-500">*</span>
+                                            </label>
+                                            
+                                            <div
+                                                onClick={() => setIsStateOpen(!isStateOpen)}
+                                                className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 flex items-center justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500/50 hover:border-slate-600 transition-all"
+                                            >
+                                                <span className={teamOverview.state ? 'text-slate-100' : 'text-slate-500'}>
+                                                    {teamOverview.state || 'Select state or region'}
+                                                </span>
+                                                <span className="text-slate-400 text-xs">▼</span>
+                                            </div>
+
+                                            {isStateOpen && (
+                                                <div className="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-30 overflow-hidden">
+                                                    <div className="p-2 border-b border-slate-800">
+                                                        <input
+                                                            type="text"
+                                                            value={stateSearch}
+                                                            onChange={(e) => setStateSearch(e.target.value)}
+                                                            placeholder="Search state..."
+                                                            className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-orange-500"
+                                                            autoFocus
+                                                        />
+                                                    </div>
+                                                    <div className="max-h-48 overflow-y-auto">
+                                                        {filteredStates.length > 0 ? (
+                                                            filteredStates.map((st) => (
+                                                                <button
+                                                                    key={st}
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        setTeamOverview({ ...teamOverview, state: st });
+                                                                        setIsStateOpen(false);
+                                                                        setStateSearch('');
+                                                                    }}
+                                                                    className={`w-full text-left px-4 py-2 text-xs transition hover:bg-orange-500/10 hover:text-orange-400 cursor-pointer ${
+                                                                        teamOverview.state === st ? 'text-orange-400 font-semibold bg-orange-500/5' : 'text-slate-300'
+                                                                    }`}
+                                                                >
+                                                                    {st}
+                                                                </button>
+                                                            ))
+                                                        ) : (
+                                                            <div className="px-4 py-3 text-xs text-slate-500 text-center">No states found</div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* SECTION 2: Team Leader Details */}
+                                <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 sm:p-8 shadow-xl relative group hover:border-slate-700/80 transition-all duration-300">
+                                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800/80">
+                                        <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold text-sm">
+                                            2
+                                        </div>
+                                        <div>
+                                            <h2 className="text-lg sm:text-xl font-bold text-white">Team Leader Details</h2>
+                                            <p className="text-xs text-slate-400">Primary point of contact for communications and check-in</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                        <div>
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                Full Name <span className="text-orange-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={leader.fullName}
+                                                onChange={(e) => setLeader({ ...leader, fullName: e.target.value })}
+                                                placeholder="e.g. Alex Morgan"
+                                                className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                Active Email <span className="text-orange-500">*</span>
+                                            </label>
+                                            <input
+                                                type="email"
+                                                required
+                                                value={leader.email}
+                                                onChange={(e) => setLeader({ ...leader, email: e.target.value })}
+                                                placeholder="alex.morgan@university.edu"
+                                                className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                College / Institute Name <span className="text-orange-500">*</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                required
+                                                value={leader.college}
+                                                onChange={(e) => setLeader({ ...leader, college: e.target.value })}
+                                                placeholder="e.g. National Institute of Technology"
+                                                className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                Phone Number <span className="text-orange-500">*</span>
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                required
+                                                value={leader.phone}
+                                                onChange={(e) => setLeader({ ...leader, phone: e.target.value })}
+                                                placeholder="+91 98765 43210"
+                                                className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                            />
+                                        </div>
+
+                                        <div className="sm:col-span-2">
+                                            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                Semester <span className="text-orange-500">*</span>
+                                            </label>
+                                            <div className="relative">
+                                                <select
+                                                    required
+                                                    value={leader.semester}
+                                                    onChange={(e) => setLeader({ ...leader, semester: e.target.value })}
+                                                    className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all cursor-pointer"
+                                                >
+                                                    <option value="" disabled>Select leader current semester</option>
+                                                    {SEMESTERS.map((sem) => (
+                                                        <option key={sem} value={sem} className="bg-slate-900 text-slate-200">
+                                                            {sem}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 text-xs">
+                                                    ▼
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {/* SECTION 3: Dynamic Member Details */}
+                                <section className="space-y-6">
+                                    <div className="flex items-center gap-3 px-1">
+                                        <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold text-sm">
+                                            3
+                                        </div>
+                                        <div>
+                                            <h2 className="text-lg sm:text-xl font-bold text-white">Team Member Information</h2>
+                                            <p className="text-xs text-slate-400">
+                                                Dynamically rendered for {teamOverview.teamSize - 1} co-builder{teamOverview.teamSize > 2 ? 's' : ''}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {activeMembers.map((member) => (
+                                        <div
+                                            key={member.id}
+                                            className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 sm:p-8 shadow-xl relative group hover:border-slate-700/80 transition-all duration-300"
+                                        >
+                                            <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-800">
+                                                <span className="text-sm font-bold text-orange-400 flex items-center gap-2">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400"></span>
+                                                    Team Member {member.id}
+                                                </span>
+                                                <span className="text-[11px] text-slate-400 uppercase tracking-widest font-mono">
+                                                    Co-Participant #{member.id}
+                                                </span>
+                                            </div>
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                        Full Name <span className="text-orange-500">*</span>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        value={member.fullName}
+                                                        onChange={(e) => handleMemberChange(member.id, 'fullName', e.target.value)}
+                                                        placeholder="e.g. Jordan Lee"
+                                                        className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                        Active Email <span className="text-orange-500">*</span>
+                                                    </label>
+                                                    <input
+                                                        type="email"
+                                                        required
+                                                        value={member.email}
+                                                        onChange={(e) => handleMemberChange(member.id, 'email', e.target.value)}
+                                                        placeholder="jordan.lee@university.edu"
+                                                        className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                        College / Institution Name <span className="text-orange-500">*</span>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        value={member.college}
+                                                        onChange={(e) => handleMemberChange(member.id, 'college', e.target.value)}
+                                                        placeholder="e.g. Institute of Technology"
+                                                        className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                        Phone Number <span className="text-orange-500">*</span>
+                                                    </label>
+                                                    <input
+                                                        type="tel"
+                                                        required
+                                                        value={member.phone}
+                                                        onChange={(e) => handleMemberChange(member.id, 'phone', e.target.value)}
+                                                        placeholder="+91 91234 56789"
+                                                        className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                                    />
+                                                </div>
+
+                                                <div className="sm:col-span-2">
+                                                    <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+                                                        Semester <span className="text-orange-500">*</span>
+                                                    </label>
+                                                    <div className="relative">
+                                                        <select
+                                                            required
+                                                            value={member.semester}
+                                                            onChange={(e) => handleMemberChange(member.id, 'semester', e.target.value)}
+                                                            className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 appearance-none focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all cursor-pointer"
+                                                        >
+                                                            <option value="" disabled>Select current semester</option>
+                                                            {SEMESTERS.map((sem) => (
+                                                                <option key={sem} value={sem} className="bg-slate-900 text-slate-200">
+                                                                    {sem}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400 text-xs">
+                                                            ▼
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </section>
+
+                                {/* SECTION 4: Agreements & Consent */}
+                                <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 sm:p-8 shadow-xl relative group hover:border-slate-700/80 transition-all duration-300">
+                                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800/80">
+                                        <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold text-sm">
+                                            4
+                                        </div>
+                                        <div>
+                                            <h2 className="text-lg sm:text-xl font-bold text-white">Agreements &amp; Consent</h2>
+                                            <p className="text-xs text-slate-400">All three affirmations are required prior to registration submission</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        {/* 1. Terms and Conditions */}
+                                        <label className="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/70 hover:border-slate-700/70 transition cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={agreements.terms}
+                                                onChange={(e) => setAgreements({ ...agreements, terms: e.target.checked })}
+                                                className="mt-1 h-4 w-4 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-950 accent-orange-500 cursor-pointer"
+                                            />
+                                            <span className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                                I agree to the <span className="text-orange-400 font-medium underline underline-offset-2">Terms and Conditions</span> of the NextGen Buildathon.
+                                            </span>
+                                        </label>
+
+                                        {/* 2. Privacy Policy */}
+                                        <label className="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/70 hover:border-slate-700/70 transition cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={agreements.privacy}
+                                                onChange={(e) => setAgreements({ ...agreements, privacy: e.target.checked })}
+                                                className="mt-1 h-4 w-4 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-950 accent-orange-500 cursor-pointer"
+                                            />
+                                            <span className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                                I have read and acknowledge the <span className="text-orange-400 font-medium underline underline-offset-2">Privacy Policy.pdf</span>.
+                                            </span>
+                                        </label>
+
+                                        {/* 3. Declaration */}
+                                        <label className="flex items-start gap-3.5 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800/70 hover:border-slate-700/70 transition cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                checked={agreements.declaration}
+                                                onChange={(e) => setAgreements({ ...agreements, declaration: e.target.checked })}
+                                                className="mt-1 h-4 w-4 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 focus:ring-offset-slate-950 accent-orange-500 cursor-pointer"
+                                            />
+                                            <span className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                                I hereby declare that the information provided by me is true and accurate to the best of my knowledge. I agree to abide by the rules, guidelines, and Terms &amp; Conditions of NextGen Buildathon and consent to the use of my submitted information for registration, communication, verification, and other event-related purposes.
+                                            </span>
+                                        </label>
+                                    </div>
+                                </section>
+
+                                {status.error && (
+                                    <div className="p-4 rounded-xl bg-red-950/60 border border-red-800/80 text-red-300 text-xs sm:text-sm">
+                                        ⚠️ {status.error}
+                                    </div>
+                                )}
+
+                                <div className="pt-2">
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitDisabled}
+                                        className={`w-full py-4 px-6 rounded-xl font-bold text-sm sm:text-base tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${
+                                            isSubmitDisabled
+                                                ? 'bg-slate-900 border border-slate-800 text-slate-500 cursor-not-allowed opacity-60'
+                                                : 'bg-gradient-to-r from-orange-500 via-orange-500 to-amber-500 text-white hover:from-orange-600 hover:to-amber-600 shadow-xl shadow-orange-500/25 active:scale-[0.99] cursor-pointer'
+                                        }`}
+                                    >
+                                        {status.submitting ? (
+                                            <>
+                                                <svg className="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                <span>Transmitting Registration Data...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span>Complete Team Registration</span>
+                                                <span className="text-lg">→</span>
+                                            </>
+                                        )}
+                                    </button>
+                                    
+                                    {isSubmitDisabled && (
+                                        <p className="text-center text-[11px] text-slate-500 mt-2 font-medium">
+                                            * Please review and check all three agreement boxes above to enable registration.
+                                        </p>
+                                    )}
+                                </div>
+
+                            </form>
+                        )}
+
+                        {/* Footer */}
+                        <footer className="mt-16 text-center text-xs text-slate-500 pb-8 border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <p className="tracking-wide">
+                                NextGen Buildathon &bull; Presented by <span className="text-slate-400 font-semibold">The Mind Mesh</span>
+                            </p>
+                            <a href="vanilla.html" className="text-slate-500 hover:text-orange-400 transition text-[11px]">
+                                Switch to Classic Form &rarr;
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
