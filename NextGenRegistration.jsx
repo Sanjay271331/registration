@@ -25,7 +25,7 @@ const SEMESTERS = [
   '5th Semester', '6th Semester', '7th Semester', '8th Semester'
 ];
 
-const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/invite/nextgen-buildathon-2026';
+const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/IsneEJHtBOv5zPgkYyXpha?s=sw&p=a&mlu=4&ilr=4';
 
 // Official Terms & Conditions Sections
 export const TERMS_CONDITIONS_SECTIONS = [
