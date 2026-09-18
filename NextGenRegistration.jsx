@@ -346,21 +346,21 @@ export default function NextGenRegistration() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-['Montserrat',sans-serif] relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-['Montserrat',sans-serif] relative overflow-x-hidden py-8 sm:py-12 px-3.5 sm:px-6 lg:px-8">
       {/* Ambient glows */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none -z-0" />
       <div className="absolute bottom-10 right-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-0" />
 
       <div className="max-w-4xl mx-auto relative z-10">
-        <header className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold tracking-wider uppercase mb-4">
+        <header className="text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-orange-400 text-[11px] sm:text-xs font-semibold tracking-wider uppercase mb-3 sm:mb-4 shadow-sm shadow-orange-500/10">
             <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
             Presented by The Mind Mesh
           </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-2 sm:mb-3">
             NextGen <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-amber-500">Buildathon</span>
           </h1>
-          <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto font-medium">
+          <p className="text-slate-400 text-xs sm:text-base max-w-xl mx-auto font-medium px-2">
             Vidyavardhaka College of Engineering &bull; 26th-27th November 2026
           </p>
         </header>
@@ -465,7 +465,7 @@ export default function NextGenRegistration() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Section 1: Team & Project Overview */}
-            <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-4 sm:p-8 shadow-xl">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold text-sm">
                   1
@@ -552,7 +552,7 @@ export default function NextGenRegistration() {
             </section>
 
             {/* Section 2: Team Leader Details */}
-            <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-4 sm:p-8 shadow-xl">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold text-sm">
                   2
@@ -658,7 +658,7 @@ export default function NextGenRegistration() {
               {activeMembers.map((member) => (
                 <div
                   key={member.id}
-                  className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 sm:p-8 shadow-xl"
+                  className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-4 sm:p-8 shadow-xl"
                 >
                   <div className="flex items-center justify-between mb-5 pb-3 border-b border-slate-800">
                     <span className="text-sm font-bold text-orange-400 flex items-center gap-2">
@@ -751,7 +751,7 @@ export default function NextGenRegistration() {
             </section>
 
             {/* Section 4: Agreements & Consent with Links & Downloads */}
-            <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <section className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-4 sm:p-8 shadow-xl">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-800/80">
                 <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold text-sm">
                   4
@@ -771,7 +771,7 @@ export default function NextGenRegistration() {
                       id="termsBox"
                       checked={agreements.terms}
                       onChange={(e) => setAgreements({ ...agreements, terms: e.target.checked })}
-                      className="mt-1 h-4 w-4 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 accent-orange-500 cursor-pointer"
+                      className="mt-1 h-5 w-5 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 accent-orange-500 cursor-pointer shrink-0"
                     />
                     <div className="flex-1">
                       <label htmlFor="termsBox" className="text-xs sm:text-sm text-slate-300 leading-relaxed cursor-pointer block">
@@ -805,7 +805,7 @@ export default function NextGenRegistration() {
                       id="privacyBox"
                       checked={agreements.privacy}
                       onChange={(e) => setAgreements({ ...agreements, privacy: e.target.checked })}
-                      className="mt-1 h-4 w-4 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 accent-orange-500 cursor-pointer"
+                      className="mt-1 h-5 w-5 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 accent-orange-500 cursor-pointer shrink-0"
                     />
                     <div className="flex-1">
                       <label htmlFor="privacyBox" className="text-xs sm:text-sm text-slate-300 leading-relaxed cursor-pointer block">
@@ -839,7 +839,7 @@ export default function NextGenRegistration() {
                       id="declarationBox"
                       checked={agreements.declaration}
                       onChange={(e) => setAgreements({ ...agreements, declaration: e.target.checked })}
-                      className="mt-1 h-4 w-4 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 accent-orange-500 cursor-pointer"
+                      className="mt-1 h-5 w-5 rounded border-slate-700 bg-slate-900 text-orange-500 focus:ring-orange-500 accent-orange-500 cursor-pointer shrink-0"
                     />
                     <label htmlFor="declarationBox" className="text-xs sm:text-sm text-slate-300 leading-relaxed cursor-pointer block">
                       I hereby declare that the information provided by me is true and accurate to the best of my knowledge. I agree to abide by the rules, guidelines, and Terms &amp; Conditions of NextGen Buildathon and consent to the use of my submitted information for registration, communication, verification, and other event-related purposes.
