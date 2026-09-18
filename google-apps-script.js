@@ -13,6 +13,12 @@
 
 const sheetName = 'Sheet1'; // Change this if your sheet name is different
 
+function doGet(e) {
+  return ContentService
+    .createTextOutput("NextGen Build-A-Thon Registration Webhook is active and ready to receive form submissions!")
+    .setMimeType(ContentService.MimeType.TEXT);
+}
+
 function doPost(e) {
   try {
     const doc = SpreadsheetApp.getActiveSpreadsheet();
