@@ -405,11 +405,28 @@
                 return STATES.filter(s => s.toLowerCase().includes(stateSearch.toLowerCase()));
             }, [stateSearch]);
 
-            // Submit disabled until all 3 checkboxes are true
-            const isSubmitDisabled = !agreements.terms || !agreements.privacy || !agreements.declaration || status.submitting;
-
             // Active members to display
             const activeMembers = members.slice(0, teamOverview.teamSize - 1);
+
+            // Detect duplicate emails across all team members (case-insensitive)
+            const duplicateEmails = useMemo(() => {
+                const allEmails = [
+                    leader.email.trim().toLowerCase(),
+                    ...activeMembers.map(m => m.email.trim().toLowerCase())
+                ].filter(Boolean);
+                const seen = new Set();
+                const dupes = new Set();
+                allEmails.forEach(e => {
+                    if (seen.has(e)) dupes.add(e);
+                    else seen.add(e);
+                });
+                return dupes;
+            }, [leader.email, activeMembers]);
+
+            const hasDuplicateEmails = duplicateEmails.size > 0;
+
+            // Submit disabled until all 3 checkboxes are true and no duplicate emails
+            const isSubmitDisabled = !agreements.terms || !agreements.privacy || !agreements.declaration || status.submitting || hasDuplicateEmails;
 
             const handleMemberChange = (id, field, value) => {
                 setMembers(prev =>
@@ -419,6 +436,10 @@
 
             const handleSubmit = async (e) => {
                 e.preventDefault();
+                if (hasDuplicateEmails) {
+                    setStatus({ submitting: false, success: false, error: 'Duplicate email addresses detected. Each team member must have a unique Gmail/email.' });
+                    return;
+                }
                 setStatus({ submitting: true, success: false, error: '' });
 
                 try {
@@ -757,9 +778,18 @@
                                                 required
                                                 value={leader.email}
                                                 onChange={(e) => setLeader({ ...leader, email: e.target.value })}
-                                                placeholder="alex.morgan@university.edu"
-                                                className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                                placeholder="alex.morgan@gmail.com"
+                                                className={`w-full bg-slate-950/80 border rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 transition-all ${
+                                                    duplicateEmails.has(leader.email.trim().toLowerCase()) && leader.email.trim()
+                                                        ? 'border-red-500 focus:ring-red-500/50 focus:border-red-500'
+                                                        : 'border-slate-700/80 focus:ring-orange-500/50 focus:border-orange-500'
+                                                }`}
                                             />
+                                            {duplicateEmails.has(leader.email.trim().toLowerCase()) && leader.email.trim() && (
+                                                <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1">
+                                                    <span>⚠</span> This email is already used by another team member.
+                                                </p>
+                                            )}
                                         </div>
 
                                         <div>
@@ -869,9 +899,18 @@
                                                         required
                                                         value={member.email}
                                                         onChange={(e) => handleMemberChange(member.id, 'email', e.target.value)}
-                                                        placeholder="jordan.lee@university.edu"
-                                                        className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                                        placeholder="jordan.lee@gmail.com"
+                                                        className={`w-full bg-slate-950/80 border rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 transition-all ${
+                                                            duplicateEmails.has(member.email.trim().toLowerCase()) && member.email.trim()
+                                                                ? 'border-red-500 focus:ring-red-500/50 focus:border-red-500'
+                                                                : 'border-slate-700/80 focus:ring-orange-500/50 focus:border-orange-500'
+                                                        }`}
                                                     />
+                                                    {duplicateEmails.has(member.email.trim().toLowerCase()) && member.email.trim() && (
+                                                        <p className="mt-1.5 text-xs text-red-400 flex items-center gap-1">
+                                                            <span>⚠</span> This email is already used by another team member.
+                                                        </p>
+                                                    )}
                                                 </div>
 
                                                 <div>

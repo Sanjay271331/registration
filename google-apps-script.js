@@ -157,6 +157,40 @@ function doPost(e) {
       return '';
     });
 
+    // ── DUPLICATE EMAIL CHECK ──────────────────────────────────────────
+    // Collect all emails submitted in this request
+    const submittedEmails = [
+      (e.parameter.leaderEmail || e.parameter.email || '').trim().toLowerCase(),
+      (e.parameter.member2Email || '').trim().toLowerCase(),
+      (e.parameter.member3Email || '').trim().toLowerCase(),
+      (e.parameter.member4Email || '').trim().toLowerCase(),
+    ].filter(Boolean);
+
+    // Find all email column indices in headers
+    const emailColIndices = headers.reduce((acc, h, i) => {
+      if (normalizeHeader(h).includes('EMAIL')) acc.push(i);
+      return acc;
+    }, []);
+
+    // Scan all existing data rows for any matching email
+    if (emailColIndices.length > 0 && nextRow > 2) {
+      const dataRange = sheet.getRange(2, 1, nextRow - 2, headers.length).getValues();
+      for (const row of dataRange) {
+        for (const colIdx of emailColIndices) {
+          const existingEmail = String(row[colIdx] || '').trim().toLowerCase();
+          if (existingEmail && submittedEmails.includes(existingEmail)) {
+            return ContentService
+              .createTextOutput(JSON.stringify({
+                'result': 'duplicate',
+                'error': 'Email already registered: ' + existingEmail
+              }))
+              .setMimeType(ContentService.MimeType.JSON);
+          }
+        }
+      }
+    }
+    // ── END DUPLICATE CHECK ────────────────────────────────────────────
+
     // Write row to sheet
     sheet.getRange(nextRow, 1, 1, newRow.length).setValues([newRow]);
 
